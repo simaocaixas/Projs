@@ -65,8 +65,8 @@ class Monster:
     
     def monster_atk(self,player):
         
-        damage = random.randint(1, self.attack)
-        print(f"{self.name} attacks with {damage} damage!")
+        damage = random.randint(1, self.Monster_attack)
+        print(f"{self.Monster_name} attacks with {damage} damage!")
         player.Player_hp -= damage
         if player.Player_hp < 0:
             player.Player_hp = 0            
@@ -88,7 +88,7 @@ class Game:
     def create_monster(self):
         names = ['Goblin', 'Orc', 'Dragon']
         name = random.choice(names)
-        hp = random.randint(1, 10)
+        hp = random.randint(5, 10)
         attack = random.randint(1, 3)
         defense = random.randint(1, 2)
         return Monster(name, hp, attack, defense)
@@ -152,33 +152,52 @@ class Game:
         print('.')
         time.sleep(1)
         monster = self.create_monster()
+        print(f"A {monster.Monster_name} with {monster.Monster_hp} HP is looking at you!")
+        time.sleep(1)
+        
         while monster.is_alive() and player.Player_hp > 0:
+                time.sleep(1)
                 print("\nYour turn:")
+                time.sleep(1)
                 action = input("Do you want to attack or use an item? (attack/item): ")
                 if action.lower() == 'attack':
                     damage = random.randint(1, player.Player_atk)
+                    time.sleep(1)
                     print(f"You attack the {monster.Monster_name} for {damage} damage!")
                     monster.take_damage(damage)
                     if monster.is_alive():
-                        monster.attack_player(player)
+                        monster.monster_atk(player)
+                        time.sleep(1)
                         print(f"Your HP: {player.Player_hp}")
                     else:
+                        time.sleep(1)
                         print(f"You have defeated the {monster.Monster_name}!")
                 elif action.lower() == 'item':
+                    time.sleep(1)
                     print("Using items is not implemented yet.")
                 else:
+                    time.sleep(1)
                     print("Invalid action. Please choose 'attack' or 'item'.")
             
-            
-            
+    def nice_pause(self):
+        
+        print('.')
+        time.sleep(1)
+        print('.')
+        time.sleep(1)
+        print('.')
+
         
     def start_game(self):
         self.gamerunning = True
 
         print("☆☆ Welcome to TXTRPG ☆☆")
-        time.sleep(2)
+        time.sleep(1)
+        self.nice_pause()
+        time.sleep(1)
         print("Lest start by creating your character")
-        time.sleep(2)
+        time.sleep(1)
+        self.nice_pause()
         symbols = ['❤️️','⚔️','💪','💧','💰']
         Status_str = ['Health','Attack','Defence','Stamina','Shards']
         player = Player(0,0,0,0,0)
@@ -189,7 +208,8 @@ class Game:
             player.Change_status(Status_str[i],rolled)
             time.sleep(0.7)
             print(f"{symbols[i]} You rolled {rolled} {Status_str[i]} points! {symbols[i]}") 
-            time.sleep(2)
+            time.sleep(1)
+            self.nice_pause()
 
         print("Good!")
         time.sleep(1)
